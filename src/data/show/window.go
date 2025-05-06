@@ -39,7 +39,7 @@ func initialWindowM() *windowM {
 		{Title: "AVG RTT", Width: 8},
 		{Title: "MIN RTT", Width: 8},
 		{Title: "MAX RTT", Width: 8},
-		{Title: "Status", Width: 6},
+		{Title: "Status", Width: 12},
 		{Title: "Last Update", Width: 20},
 	}
 
@@ -55,6 +55,7 @@ func initialWindowM() *windowM {
 	ipArea.Placeholder = "👉 Input IP or domain name"
 	ipArea.SetWidth(45)
 	ipArea.SetHeight(50)
+	ipArea.MaxHeight = 10000
 	ipArea.Focus()
 
 	return &windowM{
@@ -244,7 +245,7 @@ func (w *windowM) View() string {
 
 	// 状态信息
 	status := statusStyle.Render(w.statusMsg)
-	help := "Tab: Switch focus | ↑/↓: Navigate | focus ip addresss ctrl + b: start ping | ctrl + c: Quit\n"
+	help := "Tab: Switch focus | ↑(PgUP)/↓(PgDN): Navigate | focus table ctrl + s: kill focus row ping | focus input ipaddr ctrl + b: start ping | ctrl + c: Quit\n"
 	return lipgloss.JoinVertical(
 		lipgloss.Left,
 		uppart,

@@ -6,6 +6,7 @@ import (
 	"strings"
 )
 
+// 移除[]string重复项
 func RemoveDuplicates(slice []string) []string {
     encountered := map[string]bool{}
     result := []string{}
@@ -19,6 +20,7 @@ func RemoveDuplicates(slice []string) []string {
     return result
 }
 
+// 判断[]string是否为空
 func IsNonEmptyStrings(slice []string) bool {
     if len(slice) == 0 {
         return false
@@ -31,7 +33,7 @@ func IsNonEmptyStrings(slice []string) bool {
     return false
 }
 
-
+// 通过指定列,对[][]string进行排序
 func SortByNumericColumn(data [][]string, column int) [][]string {
 	sort.Slice(data, func(i, j int) bool {
 		a, _ := strconv.Atoi(data[i][column])
@@ -41,7 +43,7 @@ func SortByNumericColumn(data [][]string, column int) [][]string {
 	return data
 }
 
-
+// 对[]string进行过滤
 func FilterLines(lines []string) []string {
     var result []string
     for _, line := range lines {
