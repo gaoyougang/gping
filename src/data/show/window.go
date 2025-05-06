@@ -1,6 +1,7 @@
 package show
 
 import (
+	"fmt"
 	"gping/src/data/ping"
 	"gping/src/utils"
 	"strings"
@@ -152,15 +153,18 @@ func (w *windowM) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 		case "ctrl+s": // 停止协程中的ping
 			if w.focused == "table" {
 				if len(w.tableData) > 0 && w.table.Cursor() < len(w.tableData) {
-					// 删除数据
-					w.tableData = append(w.tableData[:w.table.Cursor()], w.tableData[w.table.Cursor()+1:]...)
+					rid := w.table.Cursor()
+					ipaddr := w.tableData[rid][1]
+					w.pingContr.StopPing(ipaddr)
 					// 更新表格
 					w.table.SetRows(convertToRows(w.tableData))
 					// 调整光标位置
 					if w.table.Cursor() >= len(w.tableData) && len(w.tableData) > 0 {
 						w.table.SetCursor(len(w.tableData) - 1)
+					} else if len(w.tableData) == 0 {
+						w.table.SetCursor(0)
 					}
-					w.statusMsg = "deleted from Ping queue"
+					w.statusMsg = fmt.Sprintf("Stop %v %v  from Ping queue", rid, ipaddr)
 				}
 			}
 		}
@@ -177,8 +181,7 @@ func (w *windowM) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 		case "table":
 			w.table.Focus()
 		}
-
-		w.statusMsg = "Data updated"
+		// w.statusMsg = "Data updated"
 		return w, w.waitForResult
 	}
 
